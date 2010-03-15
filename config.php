@@ -22,7 +22,7 @@ include "$system/source/solar/config/default.php";
 
 // front controller
 $config['Solar_Controller_Front'] = array(
-    'classes' => array('Solar_App'),
+    'classes' => array('Acme_App', 'Solar_App'),
     'disable' => array(),
     'default' => 'hello',
     'rewrite' => array(),
@@ -31,7 +31,20 @@ $config['Solar_Controller_Front'] = array(
 );
 
 // model catalog
-$config['Solar_Sql_Model_Catalog']['classes'] = array();
+$config['Solar_Sql_Model_Catalog']['classes'] = array('Acme_Model');
+
+
+// the SQL adapter class to use
+$config['Solar_Sql']['adapter'] = 'Solar_Sql_Adapter_Mysql';
+
+// configure the SQL adapter class
+$config['Solar_Sql_Adapter_Mysql'] = array(
+    'host' => 'localhost', // the database server host
+    'name' => 'solar',  // the database name
+    'user' => 'solar',  // authenticate as this user
+    'pass' => 'solar',  // authenticate with this password
+);
+
 
 /**
  * done!
