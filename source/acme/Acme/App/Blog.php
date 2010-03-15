@@ -129,4 +129,26 @@ class Acme_App_Blog extends Acme_Controller_Page
         // turn off http caching
         $this->_response->setNoCache();
     }    
+    
+    public function actionDelete($id = null)
+    {
+        // was an ID specified?
+        if (! $id) {
+            return $this->_error('ERR_NO_ID_SPECIFIED');
+        }
+        
+        // fetch one blog article by ID
+        $this->item = $this->_model->blogs->fetch($id);
+        
+        // did the blog article exist?
+        if (! $this->item) {
+            return $this->_error('ERR_NO_SUCH_ITEM');
+        }
+        
+        // did the user click the delete button?
+        if ($this->_isProcess('delete')) {
+            $this->item->delete();
+            $this->_view = 'deleteSuccess';
+        }
+    }    
 }
