@@ -103,4 +103,30 @@ class Acme_App_Blog extends Acme_Controller_Page
         $this->_response->setNoCache();
     }    
     
+    public function actionAdd()
+    {
+        // get a new default record
+        $this->item = $this->_model->blogs->fetchNew();
+    
+        // did the user click the save button?
+        if ($this->_isProcess('save')) {
+        
+            // look for $_POST['blog'] in the request,
+            // and load into the record.
+            $data = $this->_request->post('blog');
+            $this->item->load($data);
+        
+            // attempt to save it, and redirect to editing on success
+            if ($this->item->save()) {
+                $uri = "/{$this->_controller}/edit/{$this->item->id}";
+                return $this->_redirectNoCache($uri);
+            }
+        }
+    
+        // get form hints from the record
+        $this->form = $this->item->newForm();
+        
+        // turn off http caching
+        $this->_response->setNoCache();
+    }    
 }
