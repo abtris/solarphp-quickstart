@@ -72,4 +72,35 @@ class Acme_App_Blog extends Acme_Controller_Page
         $this->list = $this->_model->blogs->fetchAll($fetch);
     }    
     
+    public function actionEdit($id = null)
+    {
+        // was an ID specified?
+        if (! $id) {
+            return $this->_error('ERR_NO_ID_SPECIFIED');
+        }
+    
+        // fetch one blog article by ID
+        $this->item = $this->_model->blogs->fetch($id);
+    
+        // did the blog article exist?
+        if (! $this->item) {
+            return $this->_error('ERR_NO_SUCH_ITEM');
+        }
+    
+        // did the user click the save button?
+        if ($this->_isProcess('save')) {
+            // look for $_POST['blog'] in the request,
+            // load into the record, and save it.
+            $data = $this->_request->post('blog');
+            $this->item->load($data);
+            $this->item->save();
+        }
+    
+        // get form hints from the record
+        $this->form = $this->item->newForm();
+        
+        // turn off http caching
+        $this->_response->setNoCache();
+    }    
+    
 }
