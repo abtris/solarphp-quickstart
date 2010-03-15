@@ -24,15 +24,6 @@ class Acme_App_Blog extends Acme_Controller_Page
     }
     /**
      * 
-     * The default action when no action is specified.
-     * 
-     * @var string
-     * 
-     */
-    protected $_action_default = 'index';
-    
-    /**
-     * 
      * Generic index action.
      * 
      * @return void
@@ -40,6 +31,15 @@ class Acme_App_Blog extends Acme_Controller_Page
      */
     public function actionIndex()
     {
+        // public blog articles in descending order, all result pages
+        $fetch = array(
+            'where' => array('blogs.status = ?' => 'public'),
+            'order' => 'blogs.created DESC',
+            'page'  => 'all',
+        );
+    
+        // fetch all matching records
+        $this->list = $this->_model->blogs->fetchAll($fetch);
         
     }
 }
