@@ -42,4 +42,20 @@ class Acme_App_Blog extends Acme_Controller_Page
         $this->list = $this->_model->blogs->fetchAll($fetch);
         
     }
+    
+    public function actionRead($id = null)
+    {
+        // was an ID specified?
+        if (! $id) {
+            return $this->_error('ERR_NO_ID_SPECIFIED');
+        }
+    
+        // fetch one blog article by ID
+        $this->item = $this->_model->blogs->fetch($id);
+    
+        // did the blog article exist?
+        if (! $this->item) {
+            return $this->_error('ERR_NO_SUCH_ITEM');
+        }
+    }    
 }
